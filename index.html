@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าเว็บไซต์ส่วนตัวของ MENG</title>
+    
+    <style>
+        :root {
+            --bg-card: rgba(20, 20, 25, 0.75);      
+            --text-main: #f3f4f6;    
+            --color-theme: #a855f7;  
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0;
+            background-color: #0b0b14; 
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ฉากหลังอวกาศและดาวระยิบระยับเคลื่อนไหว */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            animation: spaceMove 60s linear infinite;
+            z-index: -1; opacity: 0.8;
+        }
+
+        @keyframes spaceMove {
+            from { background-position: 0 0, 40px 60px, 130px 270px; }
+            to { background-position: 550px 1100px, 440px 1160px, 680px 1370px; }
+        }
+
+        /* 💡 สไตล์ตกแต่ง "จุดดวงดาว" ที่จะวิ่งตามนิ้ว/เคอร์เซอร์เมาส์ */
+        .cursor-particle {
+            position: fixed;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            background-color: #c084fc; 
+            border-radius: 50%;
+            pointer-events: none; 
+            z-index: 9999;
+            transform: translate(-50%, -50%) scale(1);
+            box-shadow: 0 0 10px #a855f7, 0 0 20px #6c5ce7;
+            transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+            opacity: 1;
+        }
+
+        .wrapper {
+            max-width: 600px; margin: 0 auto; padding: 50px 20px;
+            position: relative; z-index: 1;
+        }
+
+        header { text-align: center; padding: 30px 0; }
+
+        .avatar {
+            width: 140px; height: 140px;
+            border-radius: 50%; object-fit: cover;       
+            border: 4px solid rgba(255, 255, 255, 0.2); 
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.4); 
+        }
+
+        .box {
+            background-color: var(--bg-card);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            padding: 25px; border-radius: 20px;    
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); 
+            margin-bottom: 25px;    
+        }
+
+        h1 { 
+            margin: 15px 0 5px 0; font-size: 2.4rem; color: white;
+            font-weight: bold; letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        .job-title { color: #94a3b8; margin: 0 0 20px 0; font-size: 1.1rem; }
+        h2 { color: #c084fc; margin-top: 0; font-size: 1.4rem; }
+        .social-group { display: flex; flex-direction: column; gap: 14px; margin-top: 15px; }
+
+        .social-btn {
+            display: flex; align-items: center; justify-content: flex-start;
+            padding: 14px 20px; color: white; text-decoration: none;   
+            border-radius: 14px; font-weight: bold; font-size: 1.1rem;
+            transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* จัดขนาดระยะไอคอนหน้าชื่อแบรนด์ */
+        .btn-icon {
+            font-size: 1.4rem;
+            margin-right: 15px;
+            width: 25px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.3);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <header>
+            <img src="https://postimg.cc" alt="รูปโปรไฟล์ของ MENG" class="avatar">
+            <h1>MENG</h1>
+            <p class="job-title">อยู่ตัวคนเดียวมายังงี้นานแล้ว</p>
+        </header>
+
+        <section class="box">
+            <h2>สวัสดีครับ 🧑‍🚀</h2>
+            <p style="color: #cbd5e1; line-height: 1.7;">
+                ผมชื่อเหม่ง เพื่อนเรียกลุง โสดสนิท ผมเป็นคนเฟรนลี่ คุยง่าย อาจจะเข้าใจยากแต่ก็ติดตลกแหละ
+            </p>
+        </section>
+
+        <section class="box">
+            <h2>ช่องทางการติดต่อ 🌐</h2>
+            <p style="color: #94a3b8; margin-bottom: 20px;">
+                ติดตามหรือทักทายผมได้ตามช่องทางด้านล่างนี้เลยครับ:
+            </p>
+            
+            <div class="social-group">
+                <!-- ปุ่ม Facebook -->
+                <a href="https://facebook.com" target="_blank" class="social-btn" style="background-color: #1877f2;">
+                    <span class="btn-icon">📘</span> Facebook
+                </a>
+
+                <!-- ปุ่ม TikTok -->
+                <a href="https://tiktok.com" target="_blank" class="social-btn" style="background-color: #010101; border: 1px solid rgba(255,255,255,0.15);">
+                    <span class="btn-icon">🎵</span> TikTok 
+                </a>
+
+                <!-- ปุ่ม Instagram -->
+                <a href="https://instagram.com" target="_blank" class="social-btn" style="background-color: #e1306c;">
+                    <span class="btn-icon">📸</span> Instagram
+                </a>
+
+                <!-- ปุ่ม YouTube Music -->
+                <a href="https://youtube.com" target="_blank" class="social-btn" style="background-color: #ff0000;">
+                    <span class="btn-icon">🔺</span> YouTube Music
+                </a>
+
+                <!-- ปุ่ม LINE -->
+                <a href="https://line.me" target="_blank" class="social-btn" style="background-color: #06c755;">
+                    <span class="btn-icon">💬</span> LINE (ติดต่อผมได้ที่นี่)
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ส่วนระบบดวงดาวลอยขยับตามนิ้วลากและเมาส์ขยับ -->
+    <script>
+        function createParticle(e) {
+            const clientX = e.clientX || (e.touches && e.touches.clientX);
+            const clientY = e.clientY || (e.touches && e.touches.clientY);
+            
+            if (!clientX || !clientY) return;
+
+            const particle = document.createElement('div');
+            particle.className = 'cursor-particle';
+            document.body.appendChild(particle);
+
+            particle.style.left = `${clientX}px`;
+            particle.style.top = `${clientY}px`;
+
+            const size = Math.random() * 6 + 4;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+
+            setTimeout(() => {
+                particle.style.transform = `translate(-50%, -50%) scale(0)`;
+                particle.style.opacity = '0';
+            }, 50);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 850);
+        }
+
+        window.addEventListener('mousemove', createParticle);
+        window.addEventListener('touchmove', createParticle);
+    </script>
+
+</body>
+</html>
