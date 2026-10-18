@@ -55,15 +55,20 @@
             padding: 22px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.08); 
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); margin-bottom: 25px;    
         }
-        h1 { margin: 15px 0 5px 0; font-size: 2.4rem; color: white; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .job-title { color: #94a3b8; margin: 0 0 10px 0; font-size: 1.1rem; }
-        
-        .clock-container {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: rgba(168, 85, 247, 0.15); padding: 6px 16px; border-radius: 30px;
-            margin-bottom: 20px; border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; font-weight: bold;
+        h1 { 
+            margin: 15px 0 5px 0; font-size: 2.4rem; color: white; 
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(168, 85, 247, 0.8), 0 0 30px rgba(168, 85, 247, 0.4) !important; 
         }
-        .clock-container svg { width: 18px; height: 18px; margin-right: 8px; }
+        .job-title { color: #94a3b8; margin: 0 0 10px 0; font-size: 1.1rem; }
+        .clock-container {
+            display: inline-flex !important; align-items: center !important; justify-content: center !important;
+            background: rgba(168, 85, 247, 0.2) !important; padding: 15px 40px !important; border-radius: 50px !important;
+            margin-bottom: 25px !important; border: 3px solid rgba(168, 85, 247, 0.5) !important; 
+            color: #d8b4fe !important; font-weight: 900 !important; font-size: 3.5rem !important; 
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6) !important;
+        }
+        .clock-container svg { width: 45px !important; height: 45px !important; margin-right: 15px !important; filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.9)) !important; }
+        #digital-clock { text-shadow: 0 0 10px rgba(168, 85, 247, 0.9), 0 0 20px rgba(168, 85, 247, 0.6) !important; }
         h2 { color: #c084fc; margin-top: 0; font-size: 1.4rem; }
         .social-group { display: flex; flex-direction: column; gap: 14px; margin-top: 15px; }
         .social-btn {
@@ -73,7 +78,7 @@
         }
         .social-btn svg { width: 28px; height: 28px; margin-right: 15px; flex-shrink: 0; }
         .social-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(168, 85, 247, 0.3); background-color: rgba(255, 255, 255, 0.15); }
-        .music-player iframe { border-radius: 12px; width: 100%; height: 80px; }
+        .music-player iframe { border-radius: 12px; width: 100%; height: 152px; }
         .counter-badge {
             display: flex; align-items: center; justify-content: center; gap: 8px;
             font-size: 0.9rem; color: #10b981; background: rgba(16, 185, 129, 0.1);
@@ -86,7 +91,7 @@
 <body>
     <div class="wrapper">
         <header>
-            <img src="https://i.postimg.cc/d3DRvnbV/1789830701394.jpg" alt="รูปโปรไฟล์ของ MENG" class="avatar">
+            <img src="https://postimg.cc" alt="รูปโปรไฟล์ของ MENG" class="avatar">
             <h1>MENG</h1>
             <p class="job-title">อยู่ตัวคนเดียวมายังงี้นานแล้ว</p>
             <div class="clock-container">
@@ -98,9 +103,12 @@
         <section class="box">
             <h2>เปิดเพลงคลอเบาๆ 🎧</h2>
             <div class="music-player">
-                <iframe src="https://youtube.com" title="YouTube music player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen></iframe>
+                <!-- 🎵 ฝังเพลง กอด - NOS ผ่าน Spotify Embed เล่นได้แน่นอน ไม่โดนบล็อก -->
+                <iframe src="https://spotify.com" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </section>
+
+
 
         <section class="box">
             <h2>สวัสดีครับ 🧑‍🚀</h2>
@@ -108,7 +116,6 @@
                 ผมชื่อเหม่ง เพื่อนเรียกลุง โสดสนิท ผมเป็นคนเฟรนลี่ คุยง่าย อาจจะเข้าใจยากแต่ก็ติดตลกแหละ
             </p>
         </section>
-
         <section class="box">
             <h2>ช่องทางการติดต่อ 🌐</h2>
             <div class="social-group">
@@ -125,66 +132,32 @@
                     LINE (ติดต่อผมได้ที่นี่)
                 </a>
             </div>
+            
+            <!-- 👁️ แท็ก HTML ของระบบนับจำนวนคนดูแบบสมบูรณ์ -->
             <div class="counter-badge">
                 <div class="pulse-dot"></div>
-                <span>ขณะนี้มีคนกำลังดูหน้าเว็บนี้อยู่: <b>1</b> คน</span>
+                <span>มีคนเข้ามาดูเว็บนี้แล้วทั้งหมด: </span>
+                <img id="visitor-count-img" src="" alt="สถิติจำนวนคนดู" style="vertical-align: middle; margin-left: 5px;">
             </div>
         </section>
     </div>
-          <style>
-        /* 🕒 ส่วนนาฬิกาขยายร่างใหญ่เบิ้มสะใจแบบไม่เรืองแสง */
-        .clock-container {
-            display: inline-flex !important; 
-            align-items: center !important; 
-            justify-content: center !important;
-            background: rgba(168, 85, 247, 0.2) !important; 
-            padding: 15px 40px !important; 
-            border-radius: 50px !important;
-            margin-bottom: 25px !important; 
-            border: 3px solid rgba(168, 85, 247, 0.5) !important; 
-            color: #d8b4fe !important; 
-            font-weight: 900 !important;
-            font-size: 3.5rem !important; /* บังคับตัวหนาและใหญ่ยักษ์เท่าชื่อ MENG */
-        }
-        .clock-container svg { 
-            width: 45px !important; 
-            height: 45px !important; 
-            margin-right: 15px !important; 
-        }
-    </style>
-    <style>
-        /* ✨ เพิ่มเอฟเฟกต์เรืองแสงนีออนสีม่วงอวกาศ */
-        h1 {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 
-                         0 0 20px rgba(168, 85, 247, 0.8), 
-                         0 0 30px rgba(168, 85, 247, 0.4) !important;
-        }
-        .clock-container {
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6) !important;
-        }
-        #digital-clock {
-            text-shadow: 0 0 10px rgba(168, 85, 247, 0.9), 
-                         0 0 20px rgba(168, 85, 247, 0.6) !important;
-        }
-        .clock-container svg {
-            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.9)) !important;
-        }
-    </style>
 
     <script>
+        // 🕒 1. ระบบนาฬิกาดิจิทัลยักษ์เรืองแสง
         function updateClock() {
             var now = new Date();
             var hours = String(now.getHours()).padStart(2, '0');
             var minutes = String(now.getMinutes()).padStart(2, '0');
             var seconds = String(now.getSeconds()).padStart(2, '0');
             var clockEl = document.getElementById('digital-clock');
-            if (clockEl) {
-                clockEl.textContent = hours + ':' + minutes + ':' + seconds;
+            if (clockEl) { 
+                clockEl.textContent = hours + ':' + minutes + ':' + seconds; 
             }
         }
         setInterval(updateClock, 1000); 
         updateClock();
 
+        // ✨ 2. ระบบเอฟเฟกต์จุดประกายไฟอวกาศวิ่งตามเมาส์/นิ้วสัมผัส
         function createParticle(e) {
             var clientX = e.clientX || (e.touches && e.touches[0].clientX);
             var clientY = e.clientY || (e.touches && e.touches[0].clientY);
@@ -194,7 +167,7 @@
             particle.className = 'cursor-particle';
             document.body.appendChild(particle);
             
-            particle.style.left = clientX + 'px';
+            particle.style.left = clientX + 'px'; 
             particle.style.top = clientY + 'px';
             
             var size = Math.random() * 6 + 4;
@@ -205,8 +178,23 @@
                 particle.style.transform = 'translate(-50%, -50%) scale(0)';
                 particle.style.opacity = '0';
             }, 50);
-            setTimeout(function() { particle.remove(); }, 850);
+            
+            setTimeout(function() { 
+                particle.remove(); 
+            }, 850);
         }
         window.addEventListener('mousemove', createParticle);
         window.addEventListener('touchmove', createParticle);
+
+        // 👁️ 3. ระบบเชื่อมโยงข้อมูลตัวเลขนับจำนวนผู้เข้าชมอัตโนมัติ
+        function initVisitorCounter() {
+            var countImg = document.getElementById('visitor-count-img');
+            if (countImg) {
+                var currentHost = window.location.hostname || "meng-profile";
+                countImg.src = "https://seeyoufarm.com" + currentHost + "&count_bg=%230b0b14&title_bg=%230b0b14&icon=&icon_color=%23e6e6e6&title=views&edge_flat=true";
+            }
+        }
+        window.addEventListener('DOMContentLoaded', initVisitorCounter);
     </script>
+</body>
+</html>
