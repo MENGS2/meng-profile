@@ -1,31 +1,212 @@
-function updateClock() {
-    var now = new Date();
-    var hours = String(now.getHours()).padStart(2, '0');
-    var minutes = String(now.getMinutes()).padStart(2, '0');
-    var seconds = String(now.getSeconds()).padStart(2, '0');
-    var clockEl = document.getElementById('digital-clock');
-    if (clockEl) { clockEl.textContent = hours + ':' + minutes + ':' + seconds; }
-}
-setInterval(updateClock, 1000); 
-updateClock();
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าเว็บไซต์ส่วนตัวของ MENG</title>
+    <style>
+        :root {
+            --bg-card: rgba(20, 20, 25, 0.75);      
+            --text-main: #f3f4f6;    
+            --color-theme: #a855f7;  
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0;
+            background-color: #0b0b14; 
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            animation: spaceMove 60s linear infinite;
+            z-index: -1; opacity: 0.8;
+        }
+        @keyframes spaceMove {
+            from { background-position: 0 0, 40px 60px, 130px 270px; }
+            to { background-position: 550px 1100px, 440px 1160px, 680px 1370px; }
+        }
+        .cursor-particle {
+            position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+            background-color: #c084fc; border-radius: 50%; pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%) scale(1);
+            box-shadow: 0 0 10px #a855f7, 0 0 20px #6c5ce7;
+            transition: transform 0.8s ease-out, opacity 0.8s ease-out; opacity: 1;
+        }
+        .wrapper { max-width: 600px; margin: 0 auto; padding: 40px 20px; z-index: 1; position: relative;}
+        header { text-align: center; padding: 10px 0; }
+        .avatar {
+            width: 140px; height: 140px; border-radius: 50%; object-fit: cover;       
+            border: 4px solid rgba(255, 255, 255, 0.2); box-shadow: 0 0 25px rgba(168, 85, 247, 0.4); 
+        }
+        .box {
+            background-color: var(--bg-card); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            padding: 22px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); margin-bottom: 25px;    
+        }
+        h1 { margin: 15px 0 5px 0; font-size: 2.4rem; color: white; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .job-title { color: #94a3b8; margin: 0 0 10px 0; font-size: 1.1rem; }
+        
+        .clock-container {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: rgba(168, 85, 247, 0.15); padding: 6px 16px; border-radius: 30px;
+            margin-bottom: 20px; border: 1px solid rgba(168, 85, 247, 0.3); color: #c084fc; font-weight: bold;
+        }
+        .clock-container svg { width: 18px; height: 18px; margin-right: 8px; }
+        h2 { color: #c084fc; margin-top: 0; font-size: 1.4rem; }
+        .social-group { display: flex; flex-direction: column; gap: 14px; margin-top: 15px; }
+        .social-btn {
+            display: flex; align-items: center; padding: 14px 20px; color: white; text-decoration: none;   
+            border-radius: 14px; font-weight: bold; font-size: 1.1rem; transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .social-btn svg { width: 28px; height: 28px; margin-right: 15px; flex-shrink: 0; }
+        .social-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(168, 85, 247, 0.3); background-color: rgba(255, 255, 255, 0.15); }
+        .music-player iframe { border-radius: 12px; width: 100%; height: 80px; }
+        .counter-badge {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-size: 0.9rem; color: #10b981; background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2); padding: 8px 14px; border-radius: 10px; margin-top: 20px;
+        }
+        .pulse-dot { width: 8px; height: 8px; background-color: #10b981; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.9); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.5; } 100% { transform: scale(0.9); opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <img src="https://i.postimg.cc/d3DRvnbV/1789830701394.jpg" alt="รูปโปรไฟล์ของ MENG" class="avatar">
+            <h1>MENG</h1>
+            <p class="job-title">อยู่ตัวคนเดียวมายังงี้นานแล้ว</p>
+            <div class="clock-container">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span id="digital-clock">00:00:00</span>
+            </div>
+        </header>
 
-function createParticle(e) {
-    var clientX = e.clientX || (e.touches && e.touches[0].clientX);
-    var clientY = e.clientY || (e.touches && e.touches[0].clientY);
-    if (!clientX || !clientY) return;
-    var particle = document.createElement('div');
-    particle.className = 'cursor-particle';
-    document.body.appendChild(particle);
-    particle.style.left = clientX + 'px'; 
-    particle.style.top = clientY + 'px';
-    var size = Math.random() * 6 + 4;
-    particle.style.width = size + 'px'; 
-    particle.style.height = size + 'px';
-    setTimeout(function() {
-        particle.style.transform = 'translate(-50%, -50%) scale(0)';
-        particle.style.opacity = '0';
-    }, 50);
-    setTimeout(function() { particle.remove(); }, 850);
-}
-window.addEventListener('mousemove', createParticle);
-window.addEventListener('touchmove', createParticle);
+        <section class="box">
+            <h2>เปิดเพลงคลอเบาๆ 🎧</h2>
+            <div class="music-player">
+                <iframe src="https://youtube.com" title="YouTube music player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section class="box">
+            <h2>สวัสดีครับ 🧑‍🚀</h2>
+            <p style="color: #cbd5e1; line-height: 1.7; margin: 0;">
+                ผมชื่อเหม่ง เพื่อนเรียกลุง โสดสนิท ผมเป็นคนเฟรนลี่ คุยง่าย อาจจะเข้าใจยากแต่ก็ติดตลกแหละ
+            </p>
+        </section>
+
+        <section class="box">
+            <h2>ช่องทางการติดต่อ 🌐</h2>
+            <div class="social-group">
+                <a href="https://tiktok.com" target="_blank" class="social-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://w3.org"><path d="M12.53 0H8.66v16.92c0 2.45-1.4 4.58-4.22 4.58-2.67 0-4.44-2.13-4.44-4.57 0-3.13 2.5-4.58 4.74-4.58v-3.83C2.12 8.52 0 11.23 0 16.93c0 5 3.93 7.07 8.16 7.07 5.76 0 8.24-3.83 8.24-8.08V7.21c1.8 1.31 4.14 2.22 6.6 2.22V5.6c-3.13 0-5.46-1.37-6.64-3.51-.3-.54-.53-1.12-.66-1.74A5.3 5.3 0 0112.53 0z" fill="#fff"/></svg>
+                    TikTok 
+                </a>
+                <a href="https://instagram.com" target="_blank" class="social-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://w3.org"><defs><linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FED520"/><stop offset="30%" stop-color="#F15F36"/><stop offset="60%" stop-color="#D62A77"/><stop offset="100%" stop-color="#8134AF"/></linearGradient></defs><rect width="24" height="24" rx="6" fill="url(#ig-grad)"/><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="18" cy="6" r="1.2" fill="#fff"/></svg>
+                    Instagram
+                </a>
+                <a href="https://line.me" target="_blank" class="social-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://w3.org"><path d="M24 10.3c0-5.3-5.4-9.7-12-9.7S0 5 0 10.3c0 4.8 4.3 8.8 10 9.6.4.1.9.3 1.1.6.1.3.1.8 0 1.1l-.2 1c-.1.3-.2 1.2 1.1.7 1.3-.6 7-4.1 9.6-7.1 1.6-1.5 2.5-3.6 2.5-6z" fill="#06C755"/><path d="M6.7 13.5H4.6v-5.3c0-.2-.2-.4-.4-.4h-.2c-.2 0-.4.2-.4.4v5.9c0 .2.2.4.4.4h2.7c.2 0 .4-.2.4-.4v-.2c0-.2-.2-.4-.4-.4zm3.9-5.6h-.2c-.2 0-.4.2-.4.4v5.9c0 .2.2.4.4.4h.2c.2 0 .4-.2.4-.4V8.3c0-.2-.2-.4-.4-.4zm6.6.4c0-.2-.2-.4-.4-.4h-.2c-.2 0-.4.2-.4.4v3.1L14 8.1a.4.4 0 00-.3-.1c-.1 0-.2.1-.3.2v5.9c0 .2.2.4.4.4h.2c.2 0 .4-.2.4-.4v-3.1l2.9 3.2c.1.1.2.1.3.1.2 0 .4-.2.4-.4V8.3zm3-1.6V14h-1.9v-5.3H18.4V8.3h1.9v-1.6h.4c.2 0 .4.2.4.4z" fill="#fff"/></svg>
+                    LINE (ติดต่อผมได้ที่นี่)
+                </a>
+            </div>
+            <div class="counter-badge">
+                <div class="pulse-dot"></div>
+                <span>ขณะนี้มีคนกำลังดูหน้าเว็บนี้อยู่: <b>1</b> คน</span>
+            </div>
+        </section>
+    </div>
+          <style>
+        /* 🕒 ส่วนนาฬิกาขยายร่างใหญ่เบิ้มสะใจแบบไม่เรืองแสง */
+        .clock-container {
+            display: inline-flex !important; 
+            align-items: center !important; 
+            justify-content: center !important;
+            background: rgba(168, 85, 247, 0.2) !important; 
+            padding: 15px 40px !important; 
+            border-radius: 50px !important;
+            margin-bottom: 25px !important; 
+            border: 3px solid rgba(168, 85, 247, 0.5) !important; 
+            color: #d8b4fe !important; 
+            font-weight: 900 !important;
+            font-size: 3.5rem !important; /* บังคับตัวหนาและใหญ่ยักษ์เท่าชื่อ MENG */
+        }
+        .clock-container svg { 
+            width: 45px !important; 
+            height: 45px !important; 
+            margin-right: 15px !important; 
+        }
+    </style>
+    <style>
+        /* ✨ เพิ่มเอฟเฟกต์เรืองแสงนีออนสีม่วงอวกาศ */
+        h1 {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 
+                         0 0 20px rgba(168, 85, 247, 0.8), 
+                         0 0 30px rgba(168, 85, 247, 0.4) !important;
+        }
+        .clock-container {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6) !important;
+        }
+        #digital-clock {
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.9), 
+                         0 0 20px rgba(168, 85, 247, 0.6) !important;
+        }
+        .clock-container svg {
+            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.9)) !important;
+        }
+    </style>
+
+    <script>
+        function updateClock() {
+            var now = new Date();
+            var hours = String(now.getHours()).padStart(2, '0');
+            var minutes = String(now.getMinutes()).padStart(2, '0');
+            var seconds = String(now.getSeconds()).padStart(2, '0');
+            var clockEl = document.getElementById('digital-clock');
+            if (clockEl) {
+                clockEl.textContent = hours + ':' + minutes + ':' + seconds;
+            }
+        }
+        setInterval(updateClock, 1000); 
+        updateClock();
+
+        function createParticle(e) {
+            var clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            var clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            if (!clientX || !clientY) return;
+            
+            var particle = document.createElement('div');
+            particle.className = 'cursor-particle';
+            document.body.appendChild(particle);
+            
+            particle.style.left = clientX + 'px';
+            particle.style.top = clientY + 'px';
+            
+            var size = Math.random() * 6 + 4;
+            particle.style.width = size + 'px'; 
+            particle.style.height = size + 'px';
+            
+            setTimeout(function() {
+                particle.style.transform = 'translate(-50%, -50%) scale(0)';
+                particle.style.opacity = '0';
+            }, 50);
+            setTimeout(function() { particle.remove(); }, 850);
+        }
+        window.addEventListener('mousemove', createParticle);
+        window.addEventListener('touchmove', createParticle);
+    </script>
